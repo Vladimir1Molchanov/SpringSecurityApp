@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Create user</title>
+    <title>Create securityUser</title>
 </head>
 <body>
-<form action="#" th:action="@{/reg}" th:object="${user}" method="post">
+<form action="#" th:action="@{/reg}" th:object="${securityUser}" method="post">
     <label for="firstName">First name</label>
     <input type="text" th:field="*{firstName}" id="firstName" placeholder="first_name">
     <label for="lastName">Last name</label>
     <input type="text" th:field="*{lastName}" id="lastName" placeholder="last_name">
     <label for="age">age</label>
     <input type="text" th:field="*{age}" id="age" placeholder="age">
-    <label for="age">age</label>
+    <label for="password">password</label>
     <input type="text" th:field="*{password}" id="password" placeholder="password">
     <input type="submit" value="Create User">
 </form>

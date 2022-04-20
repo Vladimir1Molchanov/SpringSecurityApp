@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import vm.projects.SpringSecurityApp.model.User;
+import vm.projects.SpringSecurityApp.model.SecurityUser;
 import vm.projects.SpringSecurityApp.service.UserService;
 
 @Controller
@@ -42,8 +42,8 @@ public class AdminController {
     }
 
     @PostMapping("/user-update")
-    public String updateUser(User user) {
-        userService.saveUser(user);
+    public String updateUser(SecurityUser securityUser) {
+        userService.saveUser(securityUser);
         return "redirect:admin/";
     }
 }

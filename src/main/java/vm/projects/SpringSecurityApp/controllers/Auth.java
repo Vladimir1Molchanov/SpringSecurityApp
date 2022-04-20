@@ -7,9 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import vm.projects.SpringSecurityApp.model.Role;
-import vm.projects.SpringSecurityApp.model.User;
+import vm.projects.SpringSecurityApp.model.SecurityUser;
 import vm.projects.SpringSecurityApp.service.UserService;
 
 import java.util.Set;
@@ -45,13 +43,13 @@ public class Auth {
     }
 
     @GetMapping("/reg")
-    public String newUserForm() {
+    public String newUserForm(SecurityUser securityUser) {
         return "user-create";
     }
 
     @PostMapping("/reg")
-    public String newUser(User user) {
-        userService.saveUser(user);
-        return "redirect:login";
+    public String newUser(SecurityUser securityUser) {
+        userService.saveUser(securityUser);
+        return "redirect:/user/" + securityUser.getFirstName();
     }
 }

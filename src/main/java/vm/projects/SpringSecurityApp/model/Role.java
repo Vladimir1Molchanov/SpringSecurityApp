@@ -1,11 +1,14 @@
 package vm.projects.SpringSecurityApp.model;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
@@ -17,8 +20,8 @@ public class Role implements GrantedAuthority {
     @Column(name = "roleName")
     private String roleName;
     @Column(name = "users")
-    @ManyToMany(targetEntity = User.class, mappedBy = "roles")
-    private List<User> users;
+    @ManyToMany(targetEntity = SecurityUser.class, mappedBy = "roles", fetch = FetchType.EAGER)
+    private List<SecurityUser> securityUsers;
 
     @Override
     public String getAuthority() {
