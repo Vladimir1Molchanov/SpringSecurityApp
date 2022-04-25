@@ -7,21 +7,24 @@
 <form action="#" th:action="@{/admin/user-update}" th:object="${user}" method="post">
     <input type="hidden" th:field="*{id}" id="id" placeholder="id">
     <label for="firstName">First name</label>
-    <input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName">
+    <input type="text" th:field="*{firstName}" id="firstName">
     <br/>
     <label for="lastName">Last Name</label>
-    <input type="text" th:field="*{lastName}" id="lastName" placeholder="lastName">
+    <input type="text" th:field="*{lastName}" id="lastName">
     <br/>
     <label for="age">Age</label>
-    <input type="number" th:field="*{age}" id="age" placeholder="age">
+    <input type="number" th:field="*{age}" id="age" >
     <br/>
     <br/>
     <label>Role</label>
-    <select size="2" multiple="multiple" th:name="role">
-        <option value="ADMIN">ADMIN</option>
-        <option value="USER">USER</option>
+    <select size="2" multiple="multiple" th:name="roles">
+        <option selected="selected" value="1">ADMIN</option>
+        <option value="2">USER</option>
     </select>
     <input type="submit" value="Update User">
+
 </form>
+<a th:href="@{/logout}">logout</a>
+
 </body>
 </html>

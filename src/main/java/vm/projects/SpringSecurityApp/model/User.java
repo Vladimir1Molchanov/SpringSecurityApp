@@ -34,7 +34,6 @@ public class User implements UserDetails {
     @Column(name = "roles")
     @ManyToMany(targetEntity = Role.class
             , fetch = FetchType.EAGER
-//            , cascade = CascadeType.ALL
     )
     private Set<Role> roles;
 

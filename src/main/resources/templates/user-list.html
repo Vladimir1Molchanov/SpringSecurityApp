@@ -30,9 +30,13 @@
                 <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
                 <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>
-            <a th:href="@{/reg}">create</a>
             </tbody>
+
         </table>
+        <a th:href="@{/reg}">create</a>
+        <br>
+        <br>
+        <a th:href="@{/logout}">logout</a>
     </div>
 </div>
 </body>

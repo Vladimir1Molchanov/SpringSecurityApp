@@ -30,14 +30,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         vm.projects.SpringSecurityApp.model.User user = securityUserOpt.get();
         Set<GrantedAuthority> authority = new HashSet<>();
-//                SimpleGrantedAuthority(securityUser.getRoles().toString());
         for (Role role : user.getRoles()) {
             authority.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
-        UserDetails userDetails = new User(
+        return new User(
                 user.getUsername(),
                 user.getPassword(),
                 authority);
-        return userDetails;
     }
 }
