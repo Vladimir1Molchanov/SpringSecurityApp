@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import vm.projects.SpringSecurityApp.model.SecurityUser;
+import vm.projects.SpringSecurityApp.model.Role;
+import vm.projects.SpringSecurityApp.model.User;
 import vm.projects.SpringSecurityApp.service.UserService;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -19,7 +21,7 @@ public class Auth {
         this.userService = userService;
     }
 
-    private UserService userService;
+    private final UserService userService;
     private Authentication authentication;
 
     @GetMapping("/login")
@@ -27,29 +29,22 @@ public class Auth {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String loginPage(@ModelAttribute("username") String username, Model model) {
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if (roles.contains("ADMIN")) {
-            return "redirect:admin/";
-        } else {
-            return "redirect:user/" + username;
-        }
-    }
-
-    @GetMapping("/success")
-    public String getSuccessPage() {
-        return "success";
-    }
+//    @GetMapping("/success")
+//    public String getSuccessPage() {
+//        return "success";
+//    }
 
     @GetMapping("/reg")
-    public String newUserForm(SecurityUser securityUser) {
+    public String newUserForm(User user) {
         return "user-create";
     }
 
     @PostMapping("/reg")
-    public String newUser(SecurityUser securityUser) {
-        userService.saveUser(securityUser);
-        return "redirect:/user/" + securityUser.getFirstName();
+    public String newUser(User user) {
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role("ADMIN"));
+        user.setRoles(roles);
+        userService.saveUser(user);
+        return "redirect:/login";
     }
 }

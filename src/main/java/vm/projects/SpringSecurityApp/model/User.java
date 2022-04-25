@@ -1,15 +1,23 @@
 package vm.projects.SpringSecurityApp.model;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements GrantedAuthority {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,16 +32,50 @@ public class User implements GrantedAuthority {
     private String password;
 
     @Column(name = "roles")
-    @ManyToMany(targetEntity = Role.class)
+    @ManyToMany(targetEntity = Role.class
+            , fetch = FetchType.EAGER
+//            , cascade = CascadeType.ALL
+    )
     private Set<Role> roles;
 
     @Override
-    public String getAuthority() {
-        String roles = null;
-        for (Role role : getRoles()) {
-            roles = role.getRoleName();
-        }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>(getRoles());
+    }
 
-        return roles;
+    @Override
+    public String getUsername() {
+        return getFirstName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public static UserDetails fromUser(User User) {
+        return new org.springframework.security.core.userdetails.User(
+                User.getFirstName(), User.getPassword(),
+                User.isEnabled(),
+                User.isAccountNonExpired(),
+                User.isCredentialsNonExpired(),
+                User.isAccountNonLocked(),
+                User.getAuthorities()
+        );
     }
 }

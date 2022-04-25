@@ -1,17 +1,19 @@
 package vm.projects.SpringSecurityApp.service;
 
-import vm.projects.SpringSecurityApp.model.SecurityUser;
+import vm.projects.SpringSecurityApp.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    SecurityUser findById(long id);
+    List<User> findAll();
 
-    List<SecurityUser> findAll();
+    User findById(long id);
 
-    SecurityUser saveUser(SecurityUser securityUser);
+    void saveUser(User user);
+
+    User findByName(String name);
+
+    void updateUser(User user, String[] roles);
 
     void deleteById(long id);
-
-    SecurityUser findByName(String name);
 }

@@ -2,12 +2,14 @@ package vm.projects.SpringSecurityApp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import vm.projects.SpringSecurityApp.model.SecurityUser;
+import org.springframework.web.bind.annotation.*;
+import vm.projects.SpringSecurityApp.model.Role;
+import vm.projects.SpringSecurityApp.model.User;
 import vm.projects.SpringSecurityApp.service.UserService;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -17,33 +19,31 @@ public class AdminController {
         this.userService = userService;
     }
 
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/users")
     public String findAll(Model model) {
-        model.addAttribute("users",
-                userService.findAll());
-
+        model.addAttribute("users", userService.findAll());
         return "user-list";
     }
 
     @GetMapping("/user-delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:admin/";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/user-update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user",
                 userService.findById(id));
-
         return "user-update";
     }
 
     @PostMapping("/user-update")
-    public String updateUser(SecurityUser securityUser) {
-        userService.saveUser(securityUser);
-        return "redirect:admin/";
+    public String updateUser(@ModelAttribute("user") User user,
+                             @RequestParam("role") String[] roles) {
+        userService.updateUser(user, roles);
+        return "redirect:/admin/users";
     }
 }

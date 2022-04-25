@@ -13,7 +13,7 @@ import vm.projects.SpringSecurityApp.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -21,8 +21,7 @@ public class UserController {
 
     @GetMapping("/{name}")
     public String showUser(@PathVariable String name, Model model){
-        model.addAttribute("user",
-                userService.findByName(name));
+        model.addAttribute("user", userService.findByName(name));
 
         return "user";
     }

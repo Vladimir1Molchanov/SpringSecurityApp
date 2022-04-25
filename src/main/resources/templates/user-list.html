@@ -5,8 +5,8 @@
     <title>Users</title>
 </head>
 <body>
-<div th:switch="${securityUsers}">
-    <h2 th:case="null">No securityUsers found!</h2>
+<div th:switch="${users}">
+    <h2 th:case="null">No Users found!</h2>
     <div th:case="*">
         <h2>Users</h2>
         <table>
@@ -16,26 +16,24 @@
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Age</th>
-                <th>Role</th>
-                <th>Status</th>
+                <th>Role(s)</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="securityUser : ${securityUsers}">
-                <td th:text="${securityUser.id}"></td>
-                <td th:text="${securityUser.firstName}"></td>
-                <td th:text="${securityUser.lastName}"></td>
-                <td th:text="${securityUser.age}"></td>
-                <td th:text="${securityUser.role}"></td>
-                <td th:text="${securityUser.status}"></td>
-
-                <td><a th:href="@{securityUser-update/{id}(id=${securityUser.id})}">Edit</a></td>
-                <td><a th:href="@{securityUser-delete/{id}(id=${securityUser.id})}">Delete</a></td>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.firstName}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.age}"></td>
+                <td th:each="role : ${user.roles}"
+                    th:text="${role.roleName}"></td>
+                <td><a th:href="@{user-update/{id}(id=${user.id})}">Edit</a></td>
+                <td><a th:href="@{user-delete/{id}(id=${user.id})}">Delete</a></td>
             </tr>
+            <a th:href="@{/reg}">create</a>
             </tbody>
         </table>
     </div>
-    <p><a href="/securityUser-create">Create securityUser</a></p>
 </div>
 </body>
 </html>

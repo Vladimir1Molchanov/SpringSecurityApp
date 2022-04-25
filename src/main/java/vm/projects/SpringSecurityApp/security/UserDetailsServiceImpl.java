@@ -8,12 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import vm.projects.SpringSecurityApp.model.SecurityUser;
+import vm.projects.SpringSecurityApp.model.Role;
 import vm.projects.SpringSecurityApp.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -28,17 +26,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<SecurityUser> securityUserOpt = userRepository.findByFirstName(username);
-        if (securityUserOpt.isEmpty()) {
-            throw new UsernameNotFoundException("Username not found");
+        Optional<vm.projects.SpringSecurityApp.model.User> securityUserOpt = userRepository.findByFirstName(username);
+
+        vm.projects.SpringSecurityApp.model.User user = securityUserOpt.get();
+        Set<GrantedAuthority> authority = new HashSet<>();
+//                SimpleGrantedAuthority(securityUser.getRoles().toString());
+        for (Role role : user.getRoles()) {
+            authority.add(new SimpleGrantedAuthority(role.getRoleName()));
         }
-        SecurityUser securityUser = securityUserOpt.get();
-        GrantedAuthority authority = new SimpleGrantedAuthority(securityUser.getRoles().toString());
         UserDetails userDetails = new User(
-                securityUser.getUsername(),
-                securityUser.getPassword(),
-                Arrays.asList(authority)
-        );
+                user.getUsername(),
+                user.getPassword(),
+                authority);
         return userDetails;
     }
 }

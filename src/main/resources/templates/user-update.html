@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="UTF-8">
-<title>Create securityUser</title>
+<title>Create user</title>
 </head>
 <body>
-<form action="#" th:action="@{/securityUser-update}" th:object="${securityUser}" method="post">
-    <label for="id">ID</label>
-    <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
-    <br/>
+<form action="#" th:action="@{/admin/user-update}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}" id="id" placeholder="id">
     <label for="firstName">First name</label>
     <input type="text" th:field="*{firstName}" id="firstName" placeholder="firstName">
     <br/>
@@ -15,14 +13,14 @@
     <input type="text" th:field="*{lastName}" id="lastName" placeholder="lastName">
     <br/>
     <label for="age">Age</label>
-    <input type="text" th:field="*{age}" id="age" placeholder="age">
+    <input type="number" th:field="*{age}" id="age" placeholder="age">
     <br/>
-    <label for="role">Role</label>
-    <input type="text" th:field="*{role}" id="role" placeholder="USER or ADMIN">
     <br/>
-    <label for="status">Status</label>
-    <input type="text" th:field="*{status}" id="status" placeholder="ACTIVE or BANNED">
-    <br/>
+    <label>Role</label>
+    <select size="2" multiple="multiple" th:name="role">
+        <option value="ADMIN">ADMIN</option>
+        <option value="USER">USER</option>
+    </select>
     <input type="submit" value="Update User">
 </form>
 </body>
